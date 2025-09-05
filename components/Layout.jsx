@@ -11,33 +11,43 @@ export default function Layout({
     if (colors?.header) root.style.setProperty('--color-header', colors.header);
     if (colors?.main)   root.style.setProperty('--color-main', colors.main);
     if (colors?.footer) root.style.setProperty('--color-footer', colors.footer);
-
+    // swipe & keyboard nav – avec cleanup correct
     const main = document.getElementById('content');
-    const prev = document.querySelector('.nav.prev');
-    const next = document.querySelector('.nav.next');
+    const prev = typeof window !== 'undefined' ? document.querySelector('.nav.prev') : null;
+    const next = typeof window !== 'undefined' ? document.querySelector('.nav.next') : null;
     const hasPrev = prev && getComputedStyle(prev).visibility !== 'hidden';
     const hasNext = next && getComputedStyle(next).visibility !== 'hidden';
-    if (main && (hasPrev || hasNext)){
-      let sx=0, sy=0, sw=false;
-      main.classList.add('swipeable');
-      main.addEventListener('touchstart', e => { const t=e.changedTouches[0]; sx=t.clientX; sy=t.clientY; sw=true; }, {passive:true});
-      main.addEventListener('touchend', e => {
-        if (!sw) return;
-        const t=e.changedTouches[0], dx=t.clientX-sx, dy=t.clientY-sy;
-        if (Math.abs(dx)>60 && Math.abs(dy)<40){
-          if (dx<0 && hasNext && nextHref) location.href = nextHref;
-          if (dx>0 && hasPrev && prevHref) location.href = prevHref;
-        }
-        sw=false;
-      }, {passive:true});
-      const onKey = (e)=>{
-        if (e.key==='ArrowLeft' && hasPrev && prevHref) location.href = prevHref;
-        if (e.key==='ArrowRight' && hasNext && nextHref) location.href = nextHref;
-      };
-      document.addEventListener('keydown', onKey);
-      return ()=> document.removeEventListener('keydown', onKey);
-    }
-  }, [colors, prevHref, nextHref]);
+
+    if (!main || (!hasPrev && !hasNext)) return;
+
+    let sx=0, sy=0, sw=false;
+    const onStart = (e)=>{ const t=e.changedTouches[0]; sx=t.clientX; sy=t.clientY; sw=true; };
+    const onEnd = (e)=>{
+      if (!sw) return;
+      const t=e.changedTouches[0], dx=t.clientX-sx, dy=t.clientY-sy;
+      if (Math.abs(dx)>60 && Math.abs(dy)<40){
+        if (dx<0 && hasNext && nextHref) location.href = nextHref;
+        if (dx>0 && hasPrev && prevHref) location.href = prevHref;
+      }
+      sw=false;
+    };
+    const onKey = (e)=>{
+      if (e.key==='ArrowLeft' && hasPrev && prevHref) location.href = prevHref;
+      if (e.key==='ArrowRight' && hasNext && nextHref) location.href = nextHref;
+    };
+
+    main.classList.add('swipeable');
+    main.addEventListener('touchstart', onStart, {passive:true});
+    main.addEventListener('touchend', onEnd, {passive:true});
+    document.addEventListener('keydown', onKey);
+
+    return ()=>{
+      main.classList.remove('swipeable');
+      main.removeEventListener('touchstart', onStart);
+      main.removeEventListener('touchend', onEnd);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [colors?.header, colors?.main, colors?.footer, prevHref, nextHref]);
 
   return (
     <div>
