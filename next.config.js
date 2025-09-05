@@ -1,13 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  output: 'export',          // static export mode
   images: { unoptimized: true },
   trailingSlash: true,
-  reactStrictMode: false,  // évite les effets déclenchés 2× en dev
-  experimental: {
-    // si tu as des warnings "workspace root" : force la racine ici
-    outputFileTracingRoot: __dirname
-  }
+  reactStrictMode: false,
+  // ✅ moved here (not in experimental)
+  outputFileTracingRoot: __dirname,
 };
 module.exports = nextConfig;
 
