@@ -1,29 +1,37 @@
+// pages/index.js
+import Head from 'next/head';
 import { loadConfig, LANG_ORDER } from '../lib/config';
-import { fetchPost, postSlug } from '../lib/wp';
 
 export async function getStaticProps(){
   const cfg = loadConfig();
-  // 1er article/langue disponible (préférence EN)
-  let lang='en', id=null;
-  for (const row of cfg.sequence.posts){
-    for (const lc of LANG_ORDER){
-      if (row[lc]){ lang=lc; id=row[lc]; break; }
+
+  // 1er post dispo (préférence EN) — sans fetch
+  let lang = 'en';
+  let id = null;
+  outer: for (const row of cfg.sequence.posts) {
+    for (const lc of LANG_ORDER) {
+      if (row[lc]) { lang = lc; id = row[lc]; break outer; }
     }
-    if (id) break;
   }
-  let slug = String(id);
-  try{
-    const p = await fetchPost(id);
-    slug = postSlug(p);
-  }catch{}
-  return { props: { target: `/${lang}/${slug}/` } };
+  const target = id ? `/${lang}/${id}/` : '/404/';
+
+  return { props: { target } };
 }
 
-export default function Home({target}){
+export default function Home({ target }) {
   return (
-    <html><head><meta httpEquiv="refresh" content={`0; url=${target}`} /></head><body>
+    <>
+      <Head>
+        <title>Redirecting…</title>
+        <meta httpEquiv="refresh" content={`0; url=${target}`} />
+      </Head>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `location.replace(${JSON.stringify(target)});`
+        }}
+      />
       <p>Redirecting to <a href={target}>{target}</a>…</p>
-    </body></html>
+    </>
   );
 }
 
