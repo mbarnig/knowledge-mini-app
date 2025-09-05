@@ -1,0 +1,99 @@
+:root {
+  --color-header: #1F1F1F;
+  --color-main:   #2E2E2E;
+  --color-footer: #1A1A1A;
+  --header-h: 10svh;
+  --footer-h: 10svh;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; padding: 0; }
+body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+
+.site-header, .site-footer {
+  position: fixed; left: 0; right: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .5rem .75rem; z-index: 999;
+}
+.site-header { top: 0; height: var(--header-h); background: var(--color-header); color: #fff; }
+.site-footer { bottom: 0; height: var(--footer-h); background: var(--color-footer); color: #fff; }
+.site-header .left, .site-header .right { display: flex; align-items: center; gap: .5rem; }
+.logo { height: calc(var(--header-h) - 1.5rem); width: auto; }
+
+.btn, .lang {
+  background: transparent; color: inherit; border: 1px solid currentColor;
+  padding: .35rem .6rem; border-radius: 6px; text-decoration: none; font-size: .95rem;
+}
+.lang { padding-right: 1.25rem; min-width: 3.5rem; text-align: center; }
+
+.site-main {
+  position: absolute; top: var(--header-h); bottom: var(--footer-h); left: 0; right: 0;
+  overflow-y: auto; overflow-x: hidden; background: var(--color-main); color: #fff; padding: 1rem;
+}
+
+.media-responsive, .site-main img, .site-main video, .site-main iframe {
+  max-width: 100%; height: auto !important; width: auto !important;
+  max-height: calc(100dvh - var(--header-h) - var(--footer-h) - 2rem);
+  display: block; margin: .5rem auto; border-radius: 8px; border: 1px solid rgba(255,255,255,.1); object-fit: contain;
+}
+
+.site-footer .side { display: flex; align-items: center; gap: .75rem; }
+.site-footer .center { display: flex; align-items: center; gap: 1rem; }
+.author { font-weight: 700; letter-spacing: .08em; text-decoration: none; border: 1px solid currentColor; padding: .25rem .5rem; border-radius: 6px; }
+.nav { font-size: 1.25rem; text-decoration: none; border: 1px solid currentColor; padding: .25rem .5rem; border-radius: 6px; }
+.position { opacity: .85; }
+
+.swipeable { touch-action: pan-y; }
+
+/* Neutraliser les couleurs par défaut des liens et hériter du texte courant */
+a, a:visited, a:active, a:hover {
+  color: inherit;
+}
+
+/* Uniformiser le style des boutons et liens interactifs du header/footer */
+.btn, .author, .nav {
+  color: inherit;                      /* même couleur que le texte (blanc/noir auto) */
+  border: 1px solid currentColor;
+  background: transparent;
+  text-decoration: none;
+  padding: .35rem .6rem;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .25rem;
+}
+
+/* Taille et emphase pour les flèches */
+.nav {
+  font-size: 1.1rem;                   /* était 1.25rem, ajuste si tu veux plus grand */
+  line-height: 1;
+  min-width: 2.25rem;
+  min-height: 2rem;
+}
+
+/* Bouton des initiales auteur : un peu plus dense et bien lisible */
+.author {
+  font-weight: 700;
+  letter-spacing: .08em;
+  min-width: 2.25rem;
+  text-transform: uppercase;
+}
+
+/* Hover/focus accessibles (léger fond pour repère visuel) */
+.btn:hover, .author:hover, .nav:hover,
+.btn:focus-visible, .author:focus-visible, .nav:focus-visible {
+  background: rgba(255,255,255,0.12);  /* sur fond sombre → halo léger */
+  outline: none;
+}
+
+/* Sur fond clair (si jamais ta palette passe en clair), halo adapté */
+@media (prefers-color-scheme: light) {
+  .btn:hover, .author:hover, .nav:hover,
+  .btn:focus-visible, .author:focus-visible, .nav:focus-visible {
+    background: rgba(0,0,0,0.08);
+  }
+}
+.lang {
+  min-width: 3.5rem;   /* déjà dans ton CSS */
+  text-align: center;
+}
