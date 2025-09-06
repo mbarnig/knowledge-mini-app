@@ -136,8 +136,9 @@
   "about": "https://www.web3.lu/ki-leierbud/about.html",
   "welcome": "https://www.web3.lu/ki-leierbud/welcome.html",
   "search": "https://www.web3.lu/ki-leierbud/search.html",
-  "landing": "https://www.web3.lu/ki-leierbud/landinghtml",
+  "landing": "https://www.web3.lu/ki-leierbud/landing.html",
   "dashboard": "https://www.web3.lu/ki-leierbud/dashboard.html",
   "faq": "https://www.web3.lu/ki-leierbud/faq.html",
-  "user": "https://www.web3.lu/ki-leierbud/login.html"
+  "user": "https://www.web3.lu/ki-leierbud/user.html",
+  "author" : "https://www.web3.lu/ki-leierbud/author.html"
 }
