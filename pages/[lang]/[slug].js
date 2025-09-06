@@ -104,6 +104,7 @@ export async function getStaticProps({ params }) {
         login: cfg.login,
         search: cfg.search,
         user: cfg.user,
+        author : cfg.author,
         dashboard: cfg.dashboard,
         welcome: cfg.welcome
       },
