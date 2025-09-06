@@ -51,13 +51,13 @@ export default function Layout({
 
   return (
     <div>
+      // Header
       <header className="site-header">
         <div className="left">
           <img src={logo} alt="KI-Léierbud" className="logo" />
         </div>
-        <div className="right">
-          <a className="btn" href={links?.search || '#'}>Search</a>
-          {/* Menu langues (abbr. uniquement) */}
+        <div className="right">                  
+          <a className="btn" href={links?.search || '#'} target="_blank" rel="noopener noreferrer">Search</a>
           <select
             id="lang-select"
             className="lang"
@@ -69,19 +69,22 @@ export default function Layout({
               <option key={opt.lc} value={`/${opt.lc}/${opt.slug}/`}>{opt.lc.toUpperCase()}</option>
             ))}
           </select>
-          <a className="btn" href={links?.login || '#'}>Login</a>
+          <a className="btn" href={links?.login || '#'} target="_blank" rel="noopener noreferrer">Login</a>
         </div>
       </header>
       <main id="content" className="site-main">{children}</main>
+      // Footer
       <footer className="site-footer">
         <div className="side">
-          <a className="author" href={links?.user || '#'}>{authorInitials || 'AU'}</a>
+          <a className="author" href={links?.author || '#'} target="_blank" rel="noopener noreferrer" title="Authors">
+            {authorInitials}
+          </a>
           <a className="nav prev" style={{visibility: prevHref ? 'visible' : 'hidden'}} href={prevHref || '#'} aria-label="Précédent">⟵</a>
         </div>
         <div className="center">
-          <a className="btn" href={links?.welcome || links?.dashboard || '#'}>Home</a>
+          <a className="btn" href={links?.welcome || links?.dashboard || '#'} target="_blank" rel="noopener noreferrer">Home</a>
           <span className="position">{position || ''}</span>
-          <a className="btn" href={links?.dashboard || '#'}>TOC</a>
+          <a className="btn" href={links?.dashboard || '#'} target="_blank" rel="noopener noreferrer">TOC</a>
         </div>
         <div className="side">
           <a className="nav next" style={{visibility: nextHref ? 'visible' : 'hidden'}} href={nextHref || '#'} aria-label="Suivant">⟶</a>
